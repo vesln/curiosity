@@ -1,0 +1,155 @@
+#!/usr/bin/env node
+
+/**
+ * Core dependencies.
+ */
+
+var fs = require('fs');
+var path = require('path');
+
+/**
+ * External dependencies.
+ */
+
+var program = require('commander');
+var find = require('shelljs').find;
+
+/**
+ * Internal dependencies.
+ */
+
+var curiosity = require('..');
+
+/**
+ * Test path.
+ */
+
+var test = [];
+
+/**
+ * Ignore paths.
+ */
+
+var ignore = [];
+
+/**
+ * Production path.
+ */
+
+var prod = [];
+
+/**
+ * Pretty print array of messages.
+ *
+ * @param {Array} messages
+ * @api private
+ */
+
+function print(arr) {
+  console.log('');
+  arr.forEach(function(msg) {
+    console.log('    ' + msg);
+  });
+  console.log('');
+}
+
+/**
+ * Lookup & filter production and test files.
+ *
+ * @param {Array} production
+ * @param {Array} test
+ * @param {Array} ignore
+ * @returns {Object}
+ * @api private
+ */
+
+function lookup(prod, test, ignore) {
+  var ignored = [];
+  var tests = [];
+  var lib = [];
+
+  ignore.forEach(function(path) {
+    ignored = ignored.concat(findr(path));
+  });
+
+  test.forEach(function(path) {
+    var files = findr(path).filter(function(file) {
+      return ignored.indexOf(file) === -1;
+    });
+
+    tests = tests.concat(files);
+  });
+
+  prod.forEach(function(path) {
+    var files = findr(path).filter(function(file) {
+      return ignored.indexOf(file) === -1 && tests.indexOf(file) === -1;
+    });
+
+    lib = lib.concat(files);
+  });
+
+  return { lib: lib, test: tests };
+}
+
+/**
+ * Find all .js files in directory (recursively).
+ *
+ * @param {String} dir
+ * @returns {Array}
+ * @api private
+ */
+
+function findr(dir) {
+  var cwd = process.cwd();
+  var full = path.normalize(path.join(cwd, dir));
+
+  return find(full).filter(function(file) {
+    return file.match(/\.js$/);
+  });
+}
+
+program
+  .usage('production-lib/ --test test-lib/')
+  .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
+  .option('-F, --formatter <name>', 'specify formatter to use', 'table')
+  .option('-T, --tests <path>', 'specify folder with the tests')
+  .option('-M, --main <path>', 'specify folder with the production code')
+  .option('-I, --ignore <path>', 'specify path to ignore')
+  .option('--formatters', 'display all formatters');
+
+program.name = 'curiosity';
+
+// --formatters
+
+program.on('formatters', function() {
+  print([ 'table', 'json' ]);
+  process.exit();
+});
+
+// --tests
+
+program.on('tests', function(path) {
+  test.push(path);
+});
+
+// --ignore
+
+program.on('ignore', function(path) {
+  ignore.push(path);
+});
+
+// --main
+
+program.on('main', function(path) {
+  prod.push(path);
+});
+
+program.parse(process.argv);
+
+if (!prod.length) {
+  program.help();
+  process.exit();
+}
+
+var files = lookup(prod, test, ignore);
+var prodCode = curiosity.analyzeFiles(files.lib);
