@@ -27,12 +27,6 @@ var curiosity = require('..');
 var ignore = [];
 
 /**
- * Directories to analyze.
- */
-
-var dirs = [];
-
-/**
  * Formatter.
  */
 
@@ -144,9 +138,8 @@ function localFormatters() {
 }
 
 program
-  .usage('--analyze production-lib/')
+  .usage('<path>')
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
-  .option('--analyze <path>', 'specify folder with the production code')
   .option('--ignore <path>', 'specify path to ignore')
   .option('--formatter <name>', 'specify formatter to use', 'json')
   .option('--formatters', 'display all formatters');
@@ -159,21 +152,16 @@ program.on('formatters', function() {
   print([ 'table', 'json', 'all in ' + localFormatters() ]);
   process.exit();
 });
+
 // --ignore
 
 program.on('ignore', function(path) {
   ignore.push(path);
 });
 
-// --main
-
-program.on('analyze', function(path) {
-  dirs.push(path);
-});
-
 program.parse(process.argv);
 
-if (!dirs.length) {
+if (!program.args.length) {
   program.help();
   process.exit(1);
 }
@@ -189,7 +177,7 @@ try {
   process.exit(1);
 }
 
-var files = lookup(dirs, ignore);
+var files = lookup(program.args, ignore);
 var result = curiosity.analyzeFiles(files);
 var formatter = new Formatter(result, process.stdout);
 
