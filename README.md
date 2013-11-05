@@ -5,6 +5,10 @@
 
 # Curiosity
 
+## Synopsis
+
+## Features
+
 ## Installation
 
 ```bash

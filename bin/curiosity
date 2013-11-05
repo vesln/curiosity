@@ -121,13 +121,34 @@ function findr(dir) {
   });
 }
 
+/**
+ * Get home path.
+ *
+ * @returns {String}
+ * @api private
+ */
+
+function home() {
+  return process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+}
+
+/**
+ * Return the path where the local formatters can be.
+ *
+ * @returns {String}
+ * @api private
+ */
+
+function localFormatters() {
+  return path.join(home(), '.curiosity', 'formatters');
+}
+
 program
   .usage('--analyze production-lib/')
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
   .option('--analyze <path>', 'specify folder with the production code')
   .option('--ignore <path>', 'specify path to ignore')
   .option('--formatter <name>', 'specify formatter to use', 'json')
-  .option('--per-file', 'return stats per file not for the whole folder')
   .option('--formatters', 'display all formatters');
 
 program.name = 'curiosity';
@@ -135,7 +156,7 @@ program.name = 'curiosity';
 // --formatters
 
 program.on('formatters', function() {
-  print([ 'table', 'json' ]);
+  print([ 'table', 'json', 'all in ' + localFormatters() ]);
   process.exit();
 });
 // --ignore
@@ -158,7 +179,11 @@ if (!dirs.length) {
 }
 
 try {
-  formatter = require('../lib/curiosity/formatter/' + program.formatter);
+  try {
+    formatter = require(localFormatters() + '/' + program.formatter);
+  } catch (e) {
+    formatter = require('../lib/curiosity/formatter/' + program.formatter);
+  }
 } catch (e) {
   error('Invalid formatter: ' + program.formatter);
   process.exit(1);
