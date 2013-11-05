@@ -140,10 +140,11 @@ function findr(dir) {
 program
   .usage('production-lib/ --test test-lib/')
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
-  .option('-F, --formatter <name>', 'specify formatter to use', 'json')
-  .option('-T, --tests <path>', 'specify folder with the tests')
-  .option('-M, --main <path>', 'specify folder with the production code')
-  .option('-I, --ignore <path>', 'specify path to ignore')
+  .option('--formatter <name>', 'specify formatter to use', 'json')
+  .option('--tests <path>', 'specify folder with the tests')
+  .option('--main <path>', 'specify folder with the production code')
+  .option('--ignore <path>', 'specify path to ignore')
+  .option('--per-file', 'return stats per file not for the whole folder')
   .option('--formatters', 'display all formatters');
 
 program.name = 'curiosity';
