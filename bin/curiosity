@@ -154,7 +154,7 @@ program.parse(process.argv);
 
 if (!dirs.length) {
   program.help();
-  process.exit();
+  process.exit(1);
 }
 
 try {
