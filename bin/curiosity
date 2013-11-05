@@ -130,8 +130,7 @@ function lookup(prod, test, ignore) {
  */
 
 function findr(dir) {
-  var cwd = process.cwd();
-  var full = path.normalize(path.join(cwd, dir));
+  var full = path.normalize(dir);
 
   return find(full).filter(function(file) {
     return file.match(/\.js$/);
