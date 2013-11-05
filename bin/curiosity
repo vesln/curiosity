@@ -39,6 +39,12 @@ var ignore = [];
 var prod = [];
 
 /**
+ * Formatter.
+ */
+
+var formatter = null;
+
+/**
  * Pretty print array of messages.
  *
  * @param {Array} messages
@@ -111,7 +117,7 @@ function findr(dir) {
 program
   .usage('production-lib/ --test test-lib/')
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
-  .option('-F, --formatter <name>', 'specify formatter to use', 'table')
+  .option('-F, --formatter <name>', 'specify formatter to use', 'json')
   .option('-T, --tests <path>', 'specify folder with the tests')
   .option('-M, --main <path>', 'specify folder with the production code')
   .option('-I, --ignore <path>', 'specify path to ignore')
@@ -151,5 +157,14 @@ if (!prod.length) {
   process.exit();
 }
 
+try {
+  formatter = require('../lib/curiosity/formatter/' + program.formatter);
+} catch (e) {
+  console.error('Invalid formatter: ' + program.formatter);
+}
+
 var files = lookup(prod, test, ignore);
 var prodCode = curiosity.analyzeFiles(files.lib);
+var testCode = curiosity.analyzeFiles(files.test);
+
+formatter.print(prodCode, testCode);
