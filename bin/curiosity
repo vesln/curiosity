@@ -45,18 +45,42 @@ var prod = [];
 var formatter = null;
 
 /**
- * Pretty print array of messages.
+ * "Print" something on `stream`
  *
- * @param {Array} messages
+ * @param {Array|String} messages
+ * @param {WritableStream} stream
+ * @api private
+ */
+
+function printStream(messages, stream) {
+  if (!Array.isArray(messages)) messages = [messages];
+  stream.write('\n');
+  messages.forEach(function(msg) {
+    stream.write('    ' + msg + '\n');
+  });
+  stream.write('\n');
+};
+
+/**
+ * Print message(es) to stdout.
+ *
+ * @param {Array|String} messages
  * @api private
  */
 
 function print(arr) {
-  console.log('');
-  arr.forEach(function(msg) {
-    console.log('    ' + msg);
-  });
-  console.log('');
+  printStream(arr, process.stdout);
+}
+
+/**
+ * Print message(es) to stderr.
+ *
+ * @param {Array|String} messages
+ * @api private
+ */
+
+function error(arr) {
+  printStream(arr, process.stderr);
 }
 
 /**
@@ -160,7 +184,8 @@ if (!prod.length) {
 try {
   formatter = require('../lib/curiosity/formatter/' + program.formatter);
 } catch (e) {
-  console.error('Invalid formatter: ' + program.formatter);
+  error('Invalid formatter: ' + program.formatter);
+  process.exit(1);
 }
 
 var files = lookup(prod, test, ignore);
