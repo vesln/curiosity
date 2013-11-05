@@ -192,4 +192,4 @@ var files = lookup(prod, test, ignore);
 var prodCode = curiosity.analyzeFiles(files.lib);
 var testCode = curiosity.analyzeFiles(files.test);
 
-formatter.print(prodCode, testCode);
+formatter.print(prodCode, testCode, process.stdout);
