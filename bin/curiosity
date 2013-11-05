@@ -149,7 +149,18 @@ program.name = 'curiosity';
 // --formatters
 
 program.on('formatters', function() {
-  print([ 'table', 'json', 'all in ' + localFormatters() ]);
+  var all = fs.readdirSync(path.join(__dirname, '..', 'lib', 'curiosity', 'formatter'));
+
+  var formatters = all.filter(function(file) {
+    return !/^\./.test(file);
+  }).map(function(file) {
+    return file.replace(/\.js$/, '');
+  });
+
+  formatters.push(' ');
+  formatters.push('local formatters in: ' + localFormatters());
+
+  print(formatters);
   process.exit();
 });
 
