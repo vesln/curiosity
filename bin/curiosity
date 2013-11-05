@@ -36,7 +36,7 @@ var dirs = [];
  * Formatter.
  */
 
-var formatter = null;
+var Formatter = null;
 
 /**
  * "Print" something on `stream`
@@ -180,9 +180,9 @@ if (!dirs.length) {
 
 try {
   try {
-    formatter = require(localFormatters() + '/' + program.formatter);
+    Formatter = require(localFormatters() + '/' + program.formatter);
   } catch (e) {
-    formatter = require('../lib/curiosity/formatter/' + program.formatter);
+    Formatter = require('../lib/curiosity/formatter/' + program.formatter);
   }
 } catch (e) {
   error('Invalid formatter: ' + program.formatter);
@@ -191,5 +191,6 @@ try {
 
 var files = lookup(dirs, ignore);
 var result = curiosity.analyzeFiles(files);
+var formatter = new Formatter(result, process.stdout);
 
-formatter.print(result, process.stdout);
+formatter.run();
