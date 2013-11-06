@@ -1,5 +1,6 @@
 {
   "name": "curiosity",
+  "preferGlobal": true,
   "version": "0.0.0",
   "description": "Curious metrics about your JavaScript project",
   "keywords": [
@@ -17,6 +18,9 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/vesln/curiosity.git"
+  },
+  "bin": {
+    "curiosity": "./bin/curiosity"
   },
   "author": "Veselin Todorov <hi@vesln.com>",
   "license": "MIT",
