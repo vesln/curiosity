@@ -25,7 +25,15 @@ Raw and curious metrics about your JavaScript project.
     --formatters        display all formatters
 ```
 
-## Custom formatters
+## Formatters
+
+```
+    json
+    summary
+    total
+
+    local formatters in: /Users/vesln/.curiosity/formatters
+```
 
 ## Installation
 
