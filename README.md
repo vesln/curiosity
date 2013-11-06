@@ -5,6 +5,8 @@
 
 # Curiosity
 
+![Curiosity](http://i.imgur.com/KuQHBUp.png)
+
 ## Synopsis
 
 Raw and curious metrics about your JavaScript project.
