@@ -26,7 +26,8 @@
     "jshint": "~2.3.0",
     "coveralls": "~2.3.0",
     "jscoverage": "~0.3.8",
-    "mocha-lcov-reporter": "0.0.1"
+    "mocha-lcov-reporter": "0.0.1",
+    "nixt": "0.0.2"
   },
   "dependencies": {
     "commander": "~2.0.0",
