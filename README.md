@@ -32,7 +32,7 @@ Raw and curious metrics about your JavaScript project.
     summary
     total
 
-    local formatters in: /Users/vesln/.curiosity/formatters
+    local formatters in: /Users/your-username/.curiosity/formatters
 ```
 
 ## Installation
