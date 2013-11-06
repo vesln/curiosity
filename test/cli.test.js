@@ -1,16 +1,9 @@
-var path = require('path');
+var join = require('path').join;
 var nixt = require('nixt');
-var bin = path.join(__dirname, '..', 'bin');
+var bin = join(__dirname, '..', 'bin');
 
 var app = function() {
-  return nixt({ newlines: false })
-    .cwd(bin)
-    .base('./curiosity ')
-    .clone();
-};
-
-var fixt = function(extra) {
-  return path.join(__dirname, 'fixtures', extra);
+  return nixt({ newlines: false }).cwd(bin).base('./curiosity ').clone();
 };
 
 describe('cli', function() {
