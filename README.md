@@ -7,7 +7,21 @@
 
 ## Synopsis
 
-## Features
+## Description
+
+```
+  Usage: curiosity <path>
+
+  Options:
+
+    -h, --help          output usage information
+    -V, --version       output the version number
+    --ignore <path>     specify path to ignore
+    --formatter <name>  specify formatter to use
+    --formatters        display all formatters
+```
+
+## Custom formatters
 
 ## Installation
 
