@@ -7,6 +7,8 @@
 
 ## Synopsis
 
+Raw and curious metrics about your JavaScript project.
+
 ## Description
 
 ```
