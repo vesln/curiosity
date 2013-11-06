@@ -141,7 +141,7 @@ program
   .usage('<path>')
   .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
   .option('--ignore <path>', 'specify path to ignore')
-  .option('--formatter <name>', 'specify formatter to use', 'json')
+  .option('--formatter <name>', 'specify formatter to use', 'simple')
   .option('--formatters', 'display all formatters');
 
 program.name = 'curiosity';
@@ -184,6 +184,7 @@ try {
     Formatter = require('../lib/curiosity/formatter/' + program.formatter);
   }
 } catch (e) {
+  console.log(e);
   error('Invalid formatter: ' + program.formatter);
   process.exit(1);
 }
