@@ -1,7 +1,7 @@
 {
   "name": "curiosity",
   "preferGlobal": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Curious metrics about your JavaScript project",
   "keywords": [
     "code metrics",
