@@ -36,6 +36,7 @@
   "dependencies": {
     "commander": "~2.0.0",
     "esprima": "~1.0.4",
-    "fine": "0.0.2"
+    "fine": "0.0.2",
+    "refractory": "0.0.1"
   }
 }

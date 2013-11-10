@@ -133,11 +133,7 @@ if (!program.args.length) {
 }
 
 try {
-  try {
-    Formatter = require(localFormatters() + '/' + program.formatter);
-  } catch (e) {
-    Formatter = curiosity.loadFormatter(program.formatter);
-  }
+  Formatter = curiosity.loadFormatter(program.formatter);
 } catch (e) {
   error(e);
   error('Invalid formatter: ' + program.formatter);
