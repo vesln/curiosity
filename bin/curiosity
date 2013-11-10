@@ -139,7 +139,7 @@ try {
     Formatter = curiosity.loadFormatter(program.formatter);
   }
 } catch (e) {
-  console.log(e);
+  error(e);
   error('Invalid formatter: ' + program.formatter);
   process.exit(1);
 }
